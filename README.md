@@ -20,3 +20,4 @@ Please push your source code to [GitHub](https://github.com/).
 
 There should be a sample deployment file (e.g. *examples/nginx.yml*) that we can execute to test your BOSH release.
 Please provide a README.md (markdown) in the top directory on how to test your BOSH release with `curl`.
+
