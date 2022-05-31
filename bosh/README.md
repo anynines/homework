@@ -10,6 +10,12 @@ This [BOSH](https://bosh.io/) release deploys an nginx webserver.
 | Director name      | vbox|
 
 
+### @. Clone the Repository
+
+```bash
+git clone git@github.com:riturajsingh2015/homework.git ~/workspace
+```
+
 ### 1. SETUP BOSH Director : vbox 
 In this part we create a BOSH director named **vbox**
 
@@ -27,7 +33,7 @@ cd ~/deployments/vbox
 Spin a BOSH director **vbox** using the following command
 
 ```bash
-~/workspace/bosh-deployment/virtualbox/create-env.sh
+~/workspace/homework/bosh/virtualbox/create-env.sh
 ```
 
 ### 2. Deploy ngnix server  
@@ -58,7 +64,7 @@ bosh -e vbox ur https://github.com/cloudfoundry-community/nginx-release/releases
 - static_ips is configured to [ 10.244.0.34 ] to be used for curl output on just one IP 
 
 ```bash
-bosh -e vbox -d nginx deploy ~/workspace/bosh-deployment/virtualbox/manifests/nginx_empty.yml
+bosh -e vbox -d nginx deploy ~/workspace/homework/bosh/virtualbox/manifests/nginx_empty.yml
 ```
 
 ### 3. Test the release
