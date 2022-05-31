@@ -2,10 +2,12 @@
 
 This [BOSH](https://bosh.io/) release deploys an nginx webserver.
 
-stemcell : ubuntu-trusty
-nginx-release : 1.21.6
-manifest : nginx_empty.yml
-BOSH Director name : vbox
+| Name | Description          |
+| ------------- | ----------- |
+| stemcell      | ubuntu-trusty|
+| nginx-release     | 1.21.6|
+| manifest      | nginx_empty.yml|
+| Director name      | vbox|
 
 
 ### 1. SETUP BOSH Director : vbox 
@@ -57,7 +59,7 @@ bosh -e vbox -d nginx deploy ~/workspace/bosh-deployment/virtualbox/manifests/ng
 ### 3. Test the release
 
 Browse to <http://10.244.0.34/>; you should see a blank page.
-or 
+or do
 ```bash
 curl 10.244.0.34
 ```
