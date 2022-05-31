@@ -31,6 +31,11 @@ Spin a BOSH director **vbox** using the following command
 ```
 
 ### 2. Deploy ngnix server  
+In this part we :
+- upload a ubuntu-trusty stemcell on BOSH director
+- upload a nginx server release on BOSH director
+- deploy the **nginx_empty.yml** manifest
+
 
 #### 2.1 Upload Ubuntu stemcell
 Upload the stemcell into the BOSH director.
@@ -57,8 +62,7 @@ bosh -e vbox -d nginx deploy ~/workspace/bosh-deployment/virtualbox/manifests/ng
 ```
 
 ### 3. Test the release
-
-Browse to <http://10.244.0.34/>; you should see a blank page.
+To test the release browse to <http://10.244.0.34/>; you should see a blank page.
 or do
 ```bash
 curl 10.244.0.34
