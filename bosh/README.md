@@ -11,64 +11,54 @@ following line:***
 user nobody vcap; # group vcap can read most directories
 ```
 
-### 0. Quick Start
+### 1. SETUP BOSH Director : vbox 
 
-#### 0.0 Quick Start: Pre-requisites
+#### 1.1 Quick Start: Deployment Directory
+Create a deployment directory for our BOSH director vbox
 
-You must have a BOSH Director and have uploaded stemcells to it. Our examples assume the [BOSH CLI v2](https://github.com/cloudfoundry/bosh-cli).
+```bash
+mkdir -p ~/deployments/vbox
+cd ~/deployments/vbox
+```
+#### 1.2 Quick Start: Spin BOSH Director
 
-Follow the instructions to install BOSH Lite: <https://bosh.io/docs/bosh-lite>;
-upload the Cloud Config, set the routes, but no need to deploy Zookeeper.
+Spin a BOSH director **vbox** using the following command
 
-#### 0.2 Upload Ubuntu stemcell
+```bash
+~/workspace/bosh-deployment/virtualbox/create-env.sh
+```
+
+### 2. Deploy ngnix server  
+
+#### 2.1 Upload Ubuntu stemcell
+Upload the stemcell into the BOSH director
 
 ```bash
 bosh -e vbox us --sha1 2234c87513356e2f038ab993ef508b8724893683 https://bosh.io/d/stemcells/bosh-warden-boshlite-ubuntu-trusty-go_agent?v=3586.100
 ```
 
-#### 0.2 Upload nginx Release on the Director
+#### 2.2 Upload nginx Release
+Upload the nginx release into the BOSH director
 
 ```bash
 bosh -e vbox ur https://github.com/cloudfoundry-community/nginx-release/releases/download/1.21.6/nginx-release-1.21.6.tgz
 ```
 
-#### 0.2 Run deployment script
+#### 2.3 Run deployment manifest
 - nginx.yml manifest uses os: ubuntu-trusty version latest = v3586.100
 - network is configred to ::default:: inline with that configured in cloud-config
 - static_ips is configured to [ 10.244.0.34 ] to be used for curl output on just one IP 
 
 ```bash
-bosh -e vbox -d nginx deploy manifests/nginx.yml
+bosh -e vbox -d nginx deploy ~/workspace/bosh-deployment/virtualbox/manifests/nginx_empty.yml
 ```
 
+### 3. Test the release
 
-Clone the nginx repository:
-
+Browse to <http://10.244.0.34/>; you should see a blank page.
+or 
 ```bash
-cd ~/workspace
-git clone https://github.com/cloudfoundry-community/nginx-release.git
-cd nginx-release
+curl 10.244.0.34
 ```
-
-#### 0.1 Quick Start: Upload release to BOSH Director
-
-```bash
-bosh -e vbox ur https://github.com/cloudfoundry-community/nginx-release/releases/download/1.21.6/nginx-release-1.21.6.tgz
-```
-
-#### 0.2 Quick Start: deploy
-
-(This assumes you're in the `~/workspace/nginx` directory cloned in a previous step):
-
-```bash
-bosh -e vbox -d nginx deploy manifests/nginx-lite.yml
-```
-
-#### 0.3 Quick Start: test
-
-Browse to <http://10.244.0.34/>; you should see the following:
-
-![nginx_release_welcome](https://user-images.githubusercontent.com/1020675/27837760-14599acc-609b-11e7-8e1a-eb4d305be2b7.png)
-
 
 
