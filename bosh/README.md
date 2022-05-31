@@ -1,4 +1,4 @@
-# BOSH-deployed nginx Server
+# Deploying a nginx Server with Blank Page on BOSH Director
 
 This [BOSH](https://bosh.io/) release deploys an nginx webserver.
 
@@ -20,11 +20,27 @@ You must have a BOSH Director and have uploaded stemcells to it. Our examples as
 Follow the instructions to install BOSH Lite: <https://bosh.io/docs/bosh-lite>;
 upload the Cloud Config, set the routes, but no need to deploy Zookeeper.
 
-Upload Ubuntu stemcell
+#### 0.2 Upload Ubuntu stemcell
 
 ```bash
-bosh -e vbox us https://s3.amazonaws.com/bosh-core-stemcells/warden/bosh-stemcell-3468-warden-boshlite-ubuntu-trusty-go_agent.tgz
+bosh -e vbox us --sha1 2234c87513356e2f038ab993ef508b8724893683 https://bosh.io/d/stemcells/bosh-warden-boshlite-ubuntu-trusty-go_agent?v=3586.100
 ```
+
+#### 0.2 Upload nginx Release on the Director
+
+```bash
+bosh -e vbox ur https://github.com/cloudfoundry-community/nginx-release/releases/download/1.21.6/nginx-release-1.21.6.tgz
+```
+
+#### 0.2 Run deployment script
+- nginx.yml manifest uses os: ubuntu-trusty version latest = v3586.100
+- network is configred to ::default:: inline with that configured in cloud-config
+- static_ips is configured to [ 10.244.0.34 ] to be used for curl output on just one IP 
+
+```bash
+bosh -e vbox -d nginx deploy manifests/nginx.yml
+```
+
 
 Clone the nginx repository:
 
