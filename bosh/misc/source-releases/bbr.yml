@@ -1,0 +1,8 @@
+- path: /releases/name=backup-and-restore-sdk
+  release: backup-and-restore-sdk
+  type: replace
+  value:
+    name: backup-and-restore-sdk
+    sha1: 74a23d70f11920c505115a1fa538a2f2e69197cd
+    url: https://bosh.io/d/github.com/cloudfoundry-incubator/backup-and-restore-sdk-release?v=1.18.42
+    version: 1.18.42

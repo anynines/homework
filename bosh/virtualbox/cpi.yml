@@ -1,0 +1,47 @@
+- name: cpi
+  path: /releases/-
+  type: replace
+  value:
+    name: bosh-virtualbox-cpi
+    sha1: 9966eceb040aeb96765319a539d74266edbaf09d
+    url: https://bosh.io/d/github.com/cloudfoundry/bosh-virtualbox-cpi-release?v=0.2.2
+    version: 0.2.2
+- name: stemcell
+  path: /resource_pools/name=vms/stemcell?
+  type: replace
+  value:
+    sha1: b78e8c9acc75c3f794c515eb3ee1d6e055503b24
+    url: https://storage.googleapis.com/bosh-core-stemcells/1.84/bosh-stemcell-1.84-vsphere-esxi-ubuntu-bionic-go_agent.tgz
+- path: /resource_pools/name=vms/cloud_properties?
+  type: replace
+  value:
+    cpus: 4
+    ephemeral_disk: 16384
+    memory: 6144
+- path: /instance_groups/name=bosh/jobs/-
+  type: replace
+  value:
+    name: virtualbox_cpi
+    properties:
+      agent:
+        mbus: nats://((internal_ip)):4222
+      blobstore: null
+    release: bosh-virtualbox-cpi
+- path: /instance_groups/name=bosh/properties/director/cpi_job?
+  type: replace
+  value: virtualbox_cpi
+- path: /cloud_provider/template?
+  type: replace
+  value:
+    name: virtualbox_cpi
+    release: bosh-virtualbox-cpi
+- path: /instance_groups/name=bosh/properties/agent/env/bosh/ntp?
+  type: replace
+  value:
+  - 0.pool.ntp.org
+  - 1.pool.ntp.org
+- path: /resource_pools/0/env/bosh/ntp?
+  type: replace
+  value:
+  - 0.pool.ntp.org
+  - 1.pool.ntp.org

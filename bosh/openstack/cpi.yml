@@ -1,0 +1,60 @@
+- name: cpi
+  path: /releases/-
+  type: replace
+  value:
+    name: bosh-openstack-cpi
+    sha1: aec512de92c14784cc90036dcc1e24a0c8bf7371
+    url: https://bosh.io/d/github.com/cloudfoundry/bosh-openstack-cpi-release?v=46
+    version: 46
+- name: stemcell
+  path: /resource_pools/name=vms/stemcell?
+  type: replace
+  value:
+    sha1: 57635a164147a77447c4fcb9505f55dc46be07a8
+    url: https://storage.googleapis.com/bosh-core-stemcells/1.84/bosh-stemcell-1.84-openstack-kvm-ubuntu-bionic-go_agent.tgz
+- path: /resource_pools/name=vms/cloud_properties?
+  type: replace
+  value:
+    availability_zone: ((az))
+    instance_type: m1.xlarge
+- path: /networks/name=default/subnets/0/cloud_properties?
+  type: replace
+  value:
+    net_id: ((net_id))
+- path: /instance_groups/name=bosh/jobs/-
+  type: replace
+  value:
+    name: openstack_cpi
+    release: bosh-openstack-cpi
+- path: /instance_groups/name=bosh/properties/director/cpi_job?
+  type: replace
+  value: openstack_cpi
+- path: /cloud_provider/template?
+  type: replace
+  value:
+    name: openstack_cpi
+    release: bosh-openstack-cpi
+- path: /instance_groups/name=bosh/properties/openstack?
+  type: replace
+  value:
+    api_key: ((openstack_password))
+    auth_url: ((auth_url))
+    default_key_name: ((default_key_name))
+    default_security_groups: ((default_security_groups))
+    domain: ((openstack_domain))
+    human_readable_vm_names: true
+    project: ((openstack_project))
+    region: ((region))
+    username: ((openstack_username))
+- path: /cloud_provider/properties/openstack?
+  type: replace
+  value:
+    api_key: ((openstack_password))
+    auth_url: ((auth_url))
+    default_key_name: ((default_key_name))
+    default_security_groups: ((default_security_groups))
+    domain: ((openstack_domain))
+    human_readable_vm_names: true
+    project: ((openstack_project))
+    region: ((region))
+    username: ((openstack_username))

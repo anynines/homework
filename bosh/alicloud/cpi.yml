@@ -1,0 +1,80 @@
+- name: cpi
+  path: /releases/-
+  type: replace
+  value:
+    name: bosh-alicloud-cpi
+    sha1: f01fcd9d5a775755086513692d92630e0a77e8ea
+    url: https://github.com/cloudfoundry-incubator/bosh-alicloud-cpi-release/releases/download/v45.0.0/bosh-alicloud-cpi-release-45.0.0.tgz
+    version: 45.0.0
+- name: stemcell
+  path: /resource_pools/name=vms/stemcell?
+  type: replace
+  value:
+    sha1: e86142ae44a32068502f572e46dafbe767cc5696
+    url: https://bosh-alicloud-light-stemcells-cn.oss-cn-hangzhou.aliyuncs.com/light-bosh-stemcell-1.84-alicloud-kvm-ubuntu-bionic-go_agent.tgz
+- path: /resource_pools/name=vms/cloud_properties?
+  type: replace
+  value:
+    availability_zone: ((zone))
+    ephemeral_disk:
+      category: cloud_efficiency
+      size: "51_200"
+    instance_name: bosh-director
+    instance_type: ecs.mn4.small
+    key_pair_name: ((key_pair_name))
+    system_disk:
+      category: cloud_efficiency
+      size: "51_200"
+- path: /disk_pools/name=disks/cloud_properties?
+  type: replace
+  value:
+    instance_role: director
+    type: cloud_efficiency
+- path: /networks/name=default/subnets/0/cloud_properties?
+  type: replace
+  value:
+    internet_charge_type: PayByTraffic
+    security_group_ids:
+    - ((security_group_id))
+    vswitch_id: ((vswitch_id))
+- path: /instance_groups/name=bosh/jobs/-
+  type: replace
+  value:
+    name: alicloud_cpi
+    release: bosh-alicloud-cpi
+- path: /instance_groups/name=bosh/properties/director/cpi_job?
+  type: replace
+  value: alicloud_cpi
+- path: /cloud_provider/template?
+  type: replace
+  value:
+    name: alicloud_cpi
+    release: bosh-alicloud-cpi
+- path: /instance_groups/name=bosh/properties/alicloud?
+  type: replace
+  value:
+    access_key_id: ((access_key_id))
+    access_key_secret: ((access_key_secret))
+    availability_zone: ((zone))
+    region: ((region))
+- path: /cloud_provider/properties/alicloud?
+  type: replace
+  value:
+    access_key_id: ((access_key_id))
+    access_key_secret: ((access_key_secret))
+    availability_zone: ((zone))
+    region: ((region))
+- path: /instance_groups/name=bosh/properties/agent/env/bosh/ntp?
+  type: replace
+  value:
+  - server 0.cn.pool.ntp.org
+  - server 1.cn.pool.ntp.org
+  - server 2.cn.pool.ntp.org
+  - server 3.cn.pool.ntp.org
+- path: /resource_pools/0/env/bosh/ntp?
+  type: replace
+  value:
+  - server 0.cn.pool.ntp.org
+  - server 1.cn.pool.ntp.org
+  - server 2.cn.pool.ntp.org
+  - server 3.cn.pool.ntp.org
