@@ -36,6 +36,19 @@ Spin a BOSH director **vbox** using the following command
 ~/workspace/homework/bosh/virtualbox/create-env.sh
 ```
 
+#### 1.3 Login to BOSH Director
+
+- Get Password for BOSH director login and copy it
+```
+bosh int ./creds.yml --path /admin_password
+```
+- Try logging in
+```bash
+bosh -e vbox login
+```
+- Email : admin
+- Password : copied password
+
 ### 2. Deploy ngnix server  
 In this part we :
 - upload a ubuntu-trusty stemcell on BOSH director
