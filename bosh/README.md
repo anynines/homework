@@ -2,25 +2,25 @@
 
 This [BOSH](https://bosh.io/) release deploys an nginx webserver.
 
-***Warning: You may receive HTTP 403 Status ("forbidden") or see  "permission
-denied" errors in your logs when using stemcells >= 3541.x; to fix, set the
-worker's UNIX group to `vcap` at the top of your `nginx_conf` property with the
-following line:***
+stemcell : ubuntu-trusty
+nginx-release : 1.21.6
+manifest : nginx_empty.yml
+BOSH Director name : vbox
 
-```
-user nobody vcap; # group vcap can read most directories
-```
 
 ### 1. SETUP BOSH Director : vbox 
+In this part we create a BOSH director named **vbox**
 
-#### 1.1 Quick Start: Deployment Directory
+#### 1.1 Deployment Directory
 Create a deployment directory for our BOSH director vbox
 
 ```bash
 mkdir -p ~/deployments/vbox
 cd ~/deployments/vbox
 ```
-#### 1.2 Quick Start: Spin BOSH Director
+**Note** - Stay in this directory only 
+
+#### 1.2 Spin BOSH Director
 
 Spin a BOSH director **vbox** using the following command
 
@@ -31,7 +31,8 @@ Spin a BOSH director **vbox** using the following command
 ### 2. Deploy ngnix server  
 
 #### 2.1 Upload Ubuntu stemcell
-Upload the stemcell into the BOSH director
+Upload the stemcell into the BOSH director.
+We used stemcells >= 3541.x; to fix, set the worker's UNIX group problem
 
 ```bash
 bosh -e vbox us --sha1 2234c87513356e2f038ab993ef508b8724893683 https://bosh.io/d/stemcells/bosh-warden-boshlite-ubuntu-trusty-go_agent?v=3586.100
@@ -45,7 +46,7 @@ bosh -e vbox ur https://github.com/cloudfoundry-community/nginx-release/releases
 ```
 
 #### 2.3 Run deployment manifest
-- nginx.yml manifest uses os: ubuntu-trusty version latest = v3586.100
+- **nginx_empty** manifest uses os: ubuntu-trusty version latest = v3586.100
 - network is configred to ::default:: inline with that configured in cloud-config
 - static_ips is configured to [ 10.244.0.34 ] to be used for curl output on just one IP 
 
