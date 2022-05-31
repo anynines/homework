@@ -13,7 +13,7 @@ This [BOSH](https://bosh.io/) release deploys an nginx webserver.
 ### @. Clone the Repository
 
 ```bash
-git clone git@github.com:riturajsingh2015/homework.git ~/workspace
+git clone git@github.com:riturajsingh2015/homework.git ~/workspace/homework
 ```
 
 ### 1. SETUP BOSH Director : vbox 
