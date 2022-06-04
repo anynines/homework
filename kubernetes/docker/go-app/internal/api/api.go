@@ -4,7 +4,7 @@ import (
 	"go-app/internal/db"
 	"net/http"
 	"strconv"
-
+	"fmt"
 	"github.com/gin-gonic/gin"
 )
 
@@ -27,6 +27,7 @@ func getTodos(c *gin.Context) {
 
 func getTodo(c *gin.Context) {
 	id, err := strconv.Atoi(c.Param("id"))
+	fmt.Println("Err:", err)
 	if err != nil {
 		c.JSON(http.StatusOK, gin.H{"error": "Invalid id param", "error-message": err.Error()})
 	} else {
@@ -43,6 +44,7 @@ func createTodo(c *gin.Context) {
 	var newTodo db.Todo
 	c.BindJSON(&newTodo)
 	err := db.AddTodo(newTodo)
+	fmt.Println("Err:", err)
 	if err != nil {
 		c.JSON(http.StatusOK, gin.H{"error": "Couldn't add new todo", "error-message": err.Error()})
 	} else {
@@ -54,6 +56,7 @@ func updateTodo(c *gin.Context) {
 	var updatedTodo db.Todo
 	c.BindJSON(&updatedTodo)
 	err := db.UpdateTodo(updatedTodo)
+	fmt.Println("Err:", err)
 	if err != nil {
 		c.JSON(http.StatusOK, gin.H{"error": "Couldn't update todo", "error-message": err.Error()})
 	} else {
@@ -63,6 +66,7 @@ func updateTodo(c *gin.Context) {
 
 func deleteTodo(c *gin.Context) {
 	id, err := strconv.Atoi(c.Param("id"))
+	fmt.Println("Err:", err)
 	if err != nil {
 		c.JSON(http.StatusOK, gin.H{"error": "Invalid id param", "error-message": err.Error()})
 	} else {

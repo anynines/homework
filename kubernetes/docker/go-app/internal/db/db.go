@@ -27,7 +27,7 @@ func init() {
 	fmt.Println("----------")
 
 	psqlInfo = fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=disable", host, port, user, password, dbname)
-
+	fmt.Println("connection string:", psqlInfo)
 	initTodoTable()
 }
 
@@ -38,6 +38,7 @@ func initTodoTable() {
 	retries := 0
 	for {
 		err := dbConnection.Ping()
+		fmt.Println("Err:", err)
 		if err != nil {
 			retries++
 			time.Sleep(time.Second)

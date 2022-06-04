@@ -3,30 +3,37 @@
 The goal of this homework is to containerize a go application
 and then to deploy it to a Kubernetes cluster.
 
-## 1. Containerize the go app
+## 1. Containerize the go app [completed]
 
-In the `docker/` folder you will find a empty Dockerfile and a folder `docker/go-app/` containing the source code of the app.
+For the ease of accessibility , I stored all the environment variables in [`var.env`](./docker/var.env) file
+The Dockerfilie uses two stage build but on top of the build `postgres:latest` image is also used in the to construct a docker container
 
-The app is a simple CRUD todo app which uses PostgreSQL as a
-database to store the todos. It's possible to build the app without a connected db. The app should start up, but accessing any route will lead to an error.
-The PostgreSQL connection details should be stored in environment variables of the container -> investigate the code for more details (just search for `POSTGRESQL_`).
+### 1.1. Clone the Repository
 
-Your **frist task** is to containerize the go app.
-Write the necessary code in the empty Dockerfile you will find in the `docker/` folder.
+You may clone the repository with the following command
+```bash
+git clone git@github.com:riturajsingh2015/homework.git ~/workspace/homework
+```
 
-**Bonus**:<br/>
-The container image that runs your binary should be small, but we don't want to lose convenience during the building phase of the app in the container.
-Therefore you should use two stages in your dockerfile.<br />
-The first stage will be the build-stage which uses the `golang:latest` image as a base.<br/>
-And the Second and final stage should be based on the `apline:latest` image.
+### 1.2 Change directory 
+
+Change to the directory to the location contain the `docker-compose.yml` file
+```bash
+cd ~/workspace/homework/kubernetes/docker
+```
+
+### 1.3 Execute Docker Compose  
+Once we are in the `docker` folder you can execute the docker compose up command which will :
+- Create a `database` container running postgres
+- Create a `rest_api` container running which will run our go-app
+- Build the go-app on `golang:latest` as base image
+- Shift it using the built app to `apline:latest`
+- And run the go-app through `rest_api` container
+
+```bash
+docker compose up
+```
 
 ## 2. Deploy the go app to kubernetes
 
-We now want to deploy the app with a connected PostgreSQL database in Kubernetes. You can use minikube for that part of the exercise (or any other kubernetes cluster tool you prefer).
-
-Your **second task** is to write all the necessary yaml-resource definitions you need to deploy the app with a PostgreSQL database to Kubernetes. Please add these definitions to the `resources` folder of the repo.<br/>
-Don't use any helm charts for this task. The PostgreSQL database should be just a single instance -> no HA-setup is needed.
-
-**Bonus**:<br/>
-Make the app accessible from the outside through Ingress into your kubernetes cluster. You can use a helm chart for this task.
-The app should be accessible via the route `<host>/app`.
+Remaining
