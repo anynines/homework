@@ -5,8 +5,8 @@ and then to deploy it to a Kubernetes cluster.
 
 ## 1. Containerize the go app [completed]
 
-For the ease of accessibility , I stored all the environment variables in [`var.env`](./docker/var.env) file
-The Dockerfilie uses two stage build but on top of the build `postgres:latest` image is also used in the to construct a docker container
+For the ease of accessibility , I stored all the environment variables in [`var.env`](./docker/var.env) file.
+The [`Dockerfile`](./docker/Dockerfile) uses two-stage build, but on top of the build `postgres:latest` image is also used to construct a docker container(to connect to) in the [`docker-compose.yml`](./docker/docker-compose.yml) file. Since `apline:latest` didn't already have a running postgres server to connect to.
 
 ### 1.1. Clone the Repository
 
