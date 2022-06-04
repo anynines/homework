@@ -33,6 +33,7 @@ Once we are in the `docker` folder you can execute the docker compose up command
 ```bash
 docker compose up
 ```
+One may check the proper working of all the **routes** using `Postman`
 
 ## 2. Deploy the go app to kubernetes
 
