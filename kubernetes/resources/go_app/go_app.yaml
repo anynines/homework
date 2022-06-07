@@ -1,0 +1,40 @@
+apiVersion: apps/v1 
+kind: Deployment                                  # Type of the kubernetes resource
+metadata:
+  name: go-app                    # Name of the Kubernetes resource
+  labels:
+    app: go-app
+spec:
+  replicas: 1                                     # Number of pods to run at any given time
+  selector:
+    matchLabels: 
+      app: go-app                             # This deployment applies to any Pods matching the specified label
+  template:                                       # This deployment will create a set of pods using the configurations in this template
+    metadata:
+      labels:                                     # The labels that will be applied to all of the pods in this deployment
+        app: go-app
+    spec:                                         # Spec for the container which will run in the Pod
+      containers:
+      - name: go-app 
+        image: riturajsingh2015/go_app_api:v1       # The image we are getting from dockerhub
+        imagePullPolicy: IfNotPresent             # If we have not pulled it before, get it from dockerhub
+        ports:
+          - containerPort: 8080                   # Should match the port number that the Go application listens on
+        envFrom:
+          - configMapRef:
+              name: postgres-config               # Name of the secret environmental variable file to load
+        
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: go-app-service
+spec:
+  selector:
+    app: go-app
+  type: LoadBalancer  
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
+      nodePort: 30000
