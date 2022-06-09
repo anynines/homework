@@ -1,11 +1,11 @@
 # Anynines Applicant Homework 
 
-This repository contains two kinds of homework for applicants.
+This repository contains two kinds of homework.
 
 ## Bosh Homework
 
-Template for a bosh based homework.
+Please read the README.md inside the bosh folder
 
 ## Kubernetes Homework
 
-Template for a kubernetes based homework.
+Please read the README.md inside the kubernetes folder

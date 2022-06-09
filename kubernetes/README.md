@@ -107,4 +107,3 @@ minikube service go-app-service --url
 ```
 - This will give you a link to access your go-app-service http://XXXXXXX:30000
 - Or use Postman to send GET | POST requests to the service
-
