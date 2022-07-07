@@ -14,7 +14,7 @@ Go to [https://github.com/cloudfoundry/bosh-deployment](https://github.com/cloud
 
 ## Create nginx BOSH Release
 
-Read the section [Using BOSH to package and distribute software](https://bosh.io/docs#release).
+Read the section [Using BOSH to package and distribute software](https://bosh.io/docs/create-release/).
 Then create a BOSH release for nginx. It should display an empty page that is protected by basic authentication.
 Please fork this repository into your GitHub workspace and push your source code to the new repository.
 
