@@ -1,6 +1,6 @@
 # Anynines Applicant Homework 
 
-This repository contains two kinds of homework for applicants.
+This repository contains three kinds of homework for applicants.
 
 ## Bosh Homework
 
@@ -9,3 +9,7 @@ Template for a bosh based homework.
 ## Kubernetes Homework
 
 Template for a kubernetes based homework.
+
+## Ruby App Homework
+
+Template for a ruby app homework.
