@@ -1,0 +1,5 @@
+check process rubyweb
+  with pidfile /var/vcap/sys/run/rubyweb/pid
+  start program "/var/vcap/jobs/rubyweb/bin/ctl start"
+  stop program "/var/vcap/jobs/rubyweb/bin/ctl stop"
+  group vcap

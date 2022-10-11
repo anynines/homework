@@ -1,0 +1,12 @@
+set -e -x
+
+cp -a ruby-web-app/* ${BOSH_INSTALL_TARGET}
+
+cd ${BOSH_INSTALL_TARGET}
+
+source /var/vcap/packages/ruby-2.7/bosh/runtime.env
+
+bundle install \
+  --local \
+  --deployment \
+  --without development test

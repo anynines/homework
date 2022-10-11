@@ -1,0 +1,4 @@
+blobstore:
+  provider: local
+  options:
+    blobstore_path: /tmp/ruby-app-release-blobs
