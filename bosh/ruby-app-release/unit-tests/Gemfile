@@ -1,0 +1,11 @@
+source "https://rubygems.org"
+ruby '2.7.3'
+source 'https://rubygems.org'
+
+group :development, :test do
+  gem 'bosh-template'
+  gem 'rspec'
+  gem 'rspec-its'
+end
+
+gem "yaml", "~> 0.2.0"

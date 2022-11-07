@@ -1,0 +1,17 @@
+---
+name: rubyweb
+
+templates:
+  ctl.ebr: tmp/ctl
+  config.ebr: tmp/config.yml
+
+packages:
+- ruby
+
+properties:
+  port:
+    description: "Specify the port for the Web-app to listen on"
+    default: 8080
+  bootstrap:
+    description: "Specify the main file used to run the app"
+    default: ""

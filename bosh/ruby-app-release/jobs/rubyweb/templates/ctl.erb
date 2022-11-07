@@ -1,0 +1,47 @@
+set -e -x
+
+RUN_DIR=/var/vcap/sys/run/rubyweb
+LOG_DIR=/var/vcap/sys/log/rubyweb
+PIDFILE=${RUN_DIR}/pid
+
+case $1 in
+
+  start)
+    mkdir -p $RUN_DIR $LOG_DIR
+    chown -R vcap:vcap $RUN_DIR $LOG_DIR
+
+    echo $$ > $PIDFILE
+
+    cd /var/vcap/packages/rubyweb
+
+    source /var/vcap/packages/ruby-2.7/bosh/runtime.env
+    
+    <%= 
+    
+      start_file = p('bootstrap')
+      if not start_file.empty?
+        raise 'No bootsrap file provided'
+      end
+
+      if (start_file.eql? "app.rb")
+        raise 'Wrong bootstrap file provided'
+      end
+    
+    %>
+    bundle exec ruby <%= start_file unless start_file.eql? "app.rb" %> \
+      >>  $LOG_DIR/rubyweb.stdout.log \
+      2>> $LOG_DIR/rubyweb.stderr.log
+
+    ;;
+
+  start)
+
+    rm -f $PIDFILE
+    
+    ;;
+
+  *)
+    echo "Usage: ctl {start|stop}" ;;
+
+esac
+
