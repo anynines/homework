@@ -6,10 +6,6 @@ This repository contains three kinds of homework for applicants.
 
 Template for a bosh based homework.
 
-## Kubernetes Homework
-
-Template for a kubernetes based homework.
-
 ## Ruby App Homework
 
 Template for a ruby app homework.
