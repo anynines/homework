@@ -24,6 +24,7 @@ describe HealthRoutes do
     let(:response) { get '/', nil, {'HTTP_AUTHORIZATION' => "Basic #{token}" } }
 
     it 'checks response status and body' do
+      puts "RESP: #{response.inspect}"
       expect(response.status).to eq 200
       expect(response.body).to eq('App working OK')
     end

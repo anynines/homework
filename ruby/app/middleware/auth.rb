@@ -12,6 +12,7 @@ class AuthMiddleware
   end
 
   def call(env)
+    puts "XXX"
     auth_token = env.fetch('HTTP_AUTHORIZATION')[6..]
     creds = Base64.decode64(auth_token).force_encoding('UTF-8').split(':', 2)
 
