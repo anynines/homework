@@ -25,7 +25,6 @@ class AuthMiddleware
       Rack::Response.new('UNAUTHORIZED', 401, {}).finish
     end
   rescue StandardError => e
-    puts "ERR: #{e}"
     Rack::Response.new('SOMETHING WENT WRONG!', 501, {}).finish
   end
 end

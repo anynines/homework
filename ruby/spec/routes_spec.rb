@@ -2,11 +2,11 @@ require 'sinatra/base'
 require 'rack/test'
 require 'rspec/autorun'
 require 'json'
-require_relative '../app/routes/health'
+require 'base64'
+require_relative '../app/middleware/auth'
+require_relative './helpers/headers'
 require_relative '../app/routes/home'
-require_relative './stubs/stub_middleware'
 require_relative '../app/routes/articles'
-
 
 describe HomeRoutes do
   include Rack::Test::Methods
@@ -14,7 +14,7 @@ describe HomeRoutes do
   let(:app) { HomeRoutes.new }
 
   context 'testing the homepage endpoint GET /' do
-    let(:response) { get '/' }
+    let(:response) { get '/', nil, prepare_headers(HeaderType::HTTP_AUTH) }
 
     it 'checks response status' do
       expect(response.status).to eq 200
@@ -22,11 +22,12 @@ describe HomeRoutes do
   end
 end
 
-
 describe ArticleRoutes do
   include Rack::Test::Methods
 
   let(:app) { ArticleRoutes.new }
+  let(:auth_header) {prepare_headers(HeaderType::HTTP_AUTH)}
+  let(:content_type_header) {prepare_headers(HeaderType::CONTENT_TYPE)}
 
   before(:all) do
     require_relative '../config/environment'
@@ -34,9 +35,10 @@ describe ArticleRoutes do
   end
 
   context 'testing the get articles endpoint GET /' do
-    let(:response) { get '/' }
+    let(:response) { get '/', nil, auth_header}
 
     it 'checks response status and body' do
+
       expect(response.status).to eq 200
       hashed_response = JSON.parse(response.body)
       expect(hashed_response).to have_key('articles')
@@ -45,7 +47,7 @@ describe ArticleRoutes do
   end
 
   context 'testing the get single article endpoint GET /2' do
-    let(:response) { get '/2' }
+    let(:response) { get '/2', nil, auth_header }
 
     it 'checks response status and body' do
       expect(response.status).to eq 200
@@ -56,7 +58,7 @@ describe ArticleRoutes do
   end
 
   context 'testing the get single article endpoint GET /99' do
-    let(:response) { get '/99' }
+    let(:response) { get '/99', nil, auth_header }
 
     it 'checks response status and body' do
       expect(response.status).to eq 200
@@ -69,7 +71,7 @@ describe ArticleRoutes do
   context 'testing the create article endpoint ' do
     let(:response) do
       post '/', JSON.generate('title' => 'Route Test Article', 'content' => 'test content'),
-           'CONTENT_TYPE' => 'application/json'
+      prepare_headers 
     end
 
     it 'checks response status and body' do
@@ -83,7 +85,7 @@ describe ArticleRoutes do
   context 'testing the update article endpoint ' do
     let(:response) do
       put '/2', JSON.generate('title' => 'Updated Test Article', 'content' => 'update'),
-          'CONTENT_TYPE' => 'application/json'
+      prepare_headers
     end
 
     it 'checks response status and body' do
@@ -95,7 +97,7 @@ describe ArticleRoutes do
   end
 
   context 'testing the delete article endpoint ' do
-    let(:response) { delete '/2' }
+    let(:response) { delete '/2', nil, auth_header }
 
     it 'checks response status and body' do
       expect(response.status).to eq 200
@@ -106,7 +108,7 @@ describe ArticleRoutes do
   end
 
   context 'testing the delete article endpoint; wrong id' do
-    let(:response) { delete '/99' }
+    let(:response) { delete '/99', nil, auth_header }
 
     it 'checks response status and body' do
       expect(response.status).to eq 200
