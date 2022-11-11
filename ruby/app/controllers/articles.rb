@@ -1,6 +1,6 @@
 class ArticleController
   def create_article(article)
-    article_exists = Article.where(tilte: 'title').any? { |_a| false }
+    article_exists = Article.where(tilte: 'title')
 
     return { ok: false, msg: 'Article with given title already exists' } if article_exists
 
