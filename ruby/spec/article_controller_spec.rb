@@ -52,6 +52,7 @@ describe ArticleController do
     expect(result[:ok]).to be true
     expect(result).to have_key(:obj)
     expect(result[:obj]).to be_truthy
+    expect(result[:obj].id).to eq(4)
   end
 
   it 'tries to update a non-existent article in db' do
@@ -59,6 +60,7 @@ describe ArticleController do
     result = controller.update_article(99, article)
     expect(result).to have_key(:ok)
     expect(result[:ok]).to be false
+    expect(result).to have_key (:msg)
   end
 
   it 'deletes the test article from db' do

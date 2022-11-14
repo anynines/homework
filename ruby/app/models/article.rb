@@ -1,1 +1,3 @@
-class Article < Sequel::Model(:articles); end
+class Article < ActiveRecord::Base 
+  self.table_name = 'articles'
+end

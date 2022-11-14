@@ -53,7 +53,7 @@ class ArticleRoutes < Sinatra::Base
     if summary[:ok]
       { msg: 'Article deleted' }.to_json
     else
-      { mgs: 'Article does not exist' }.to_json
+      { mgs: 'Article does not exist' }.to_bson
     end
   end
 end

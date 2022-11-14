@@ -1,21 +1,24 @@
-require 'sequel'
+require 'active_record'
 
-DB = Sequel.postgres ENV['DB_NAME'], user: ENV['DB_USER'], password: ENV['DB_PASS'], host: ENV['DB_HOST']
+DB = ActiveRecord::Base.establish_connection(
+  :adapter => 'postgresql',
+  :database => ENV['DB_NAME'],
+  :host => ENV['DB_HOST'],
+  :username => ENV['DB_USER'],
+  :password => ENV['DB_PASS'],
+)
 
-DB.drop_table?(:articles)
-
-DB.create_table? :articles do
-  primary_key :id
-  String :title
-  String :content
-  String :created_at
+ActiveRecord::Base.connection.create_table(:articles, primary_key: 'id', force: true) do |t|
+    t.string :title
+    t.string :content
+    t.string :created_at
 end
-articles = DB[:articles]
-
-articles.insert(title: 'Title ABC', content: 'Lorem Ipsum', created_at: Time.now)
-articles.insert(title: 'Title ZFX', content: 'Some Blog Post', created_at: Time.now)
-articles.insert(title: 'Title YNN', content: 'O_O_O_O_O', created_at: Time.now)
-
-puts "Article count in DB: #{articles.count}"
 
 require_relative 'article'
+
+Article.create(:title => 'Title ABC', :content => 'Lorem Ipsum', :created_at => Time.now)
+Article.create(:title => 'Title ZFX', :content => 'Some Blog Post', :created_at => Time.now)
+Article.create(:title => 'Title YNN', :content => 'O_O_Y_O_O', :created_at => Time.now)
+
+puts "Article count in DB: #{Article.count}"
+
