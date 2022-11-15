@@ -1,6 +1,6 @@
 # Anynines Applicant Homework 
 
-This repository contains three kinds of homework for applicants.
+This repository contains two kinds of homework for applicants.
 
 ## Bosh Homework
 
