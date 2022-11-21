@@ -2,6 +2,7 @@ require 'rspec'
 require 'json'
 require 'bosh/template/test'
 require 'yaml'
+require_relative 'helpers'
 
 describe 'ruby app main job:' do
 
@@ -31,31 +32,37 @@ describe 'ruby app main job:' do
       expect {template.render("bootstrap" => "config.ru")}.to raise_error 'Wrong bootstrap file provided'
     end
 
-    #=> NOTE: The following cases specify what should happen in specific lines of the script.
-    #=> If the script is changed in a way that shifts its contents, this test will fail immediately even if the correct command is
-    #=> present in the script. Overall, there are no changes that actually require the script contents to be shifted. 
-    #=> But if this happens, one should not change the test-case! Instead, the script has to be changed so that it "aligns"
-    #=> with the test case. 
-
     it 'raises error if control script is malformed' do 
       tmps = template.render("bootstrap" => "app.rb")
       expect(tmps.lines[0]).to include ("#!/bin/bash")
     end
-
-    it 'raises error if exec command is missing the filename' do
-      tmps = template.render("bootstrap" => "app.rb")
-      expect(tmps.lines[20]).to include("bundle exec ruby app.rb")
-    end
     
+    it 'raises error if exec command is malformed' do
+      tmps = template.render("bootstrap" => "app.rb")
+
+      exec_line = tmps.each_line do |line|
+        break if line.include? "bundle exec"
+      end
+      
+      expect(exec_line).to include("bundle exec ruby app.rb")
+    end
+
     it 'raises error if stop block is not defined' do 
       tmps = template.render("bootstrap" => "app.rb")
-      expect(tmps.lines[26]).to include ("stop)")
+      expect(find_statement(tmps, /^stop\)$/)).not_to eq(-1)
     end
 
-    it 'raises error if main process is not killed in the stop block' do
+    it 'raises error if main process is not killed inside the stop block' do
       tmps = template.render("bootstrap" => "app.rb")
-      match = tmps.lines[29].match(/kill\s-[\d]\s`cat\s\$PIDFILE`/)
-      expect(match).to be_truthy
+
+      stop_block_line = find_statement(tmps, /^stop\)$/)
+      kill_statement_line = find_statement(tmps, /kill\s-[\d]\s`cat\s\$PIDFILE`/)
+      expect(stop_block_line).to be < kill_statement_line
+    end
+
+    it 'raises error if case blocks are not formed correctly' do
+      tmps = template.render("bootstrap" => "app.rb")
+      expect(check_block_formations(tmps)).to be true 
     end
 
   end
@@ -81,12 +88,11 @@ describe 'ruby app main job:' do
       expect {conf_template.render("port" => 8080)}.not_to raise_error 
     end
 
-    it 'raises error if yml is not parsable or bad' do 
+    it 'raises error if yml is not parsable or malformed' do 
       parsable = true
       begin
         yml = YAML.load(conf_template.render("port" => 8080))
       rescue StandardError => e
-        puts(e)
         parsable = false
       end
         expect(parsable).to be true
