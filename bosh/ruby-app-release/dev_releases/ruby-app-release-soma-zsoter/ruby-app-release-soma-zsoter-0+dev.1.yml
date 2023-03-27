@@ -1,0 +1,23 @@
+name: ruby-app-release-soma-zsoter
+version: 0+dev.1
+commit_hash: "6984819"
+uncommitted_changes: true
+jobs:
+- name: rubyweb
+  version: 31885bc078fcd490dceb62b32b600b46c5214bdec9bcf01d3189d8320ee96f37
+  fingerprint: 31885bc078fcd490dceb62b32b600b46c5214bdec9bcf01d3189d8320ee96f37
+  sha1: sha256:8a174811475f5f762e0c3174a9a4ac90ca79429319a632e652ef7ddb032e01f4
+  packages:
+  - ruby-2.7
+packages:
+- name: ruby-2.7
+  version: 12531188c81002a57853d750ab4993ab199aee594cc8bc099b843561dabe2059
+  fingerprint: 12531188c81002a57853d750ab4993ab199aee594cc8bc099b843561dabe2059
+  sha1: sha256:a51703f27e9ae15040efac17516692a2d29d41515f53c4001d57c649b25be867
+  dependencies: []
+- name: rubyweb
+  version: c83678f978ddcb920e2c265d4c9f4f9044c79e75331b059074dda75d0a82c9a6
+  fingerprint: c83678f978ddcb920e2c265d4c9f4f9044c79e75331b059074dda75d0a82c9a6
+  sha1: sha256:e0efa604be5ff3de596a60e8119529f36d1b22c0aa171ffebfc405d459004ef4
+  dependencies:
+  - ruby-2.7

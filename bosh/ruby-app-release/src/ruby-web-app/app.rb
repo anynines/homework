@@ -20,7 +20,7 @@ configure do
 	it1 = Item.new("Pilot Frixion", "pen")
 	it2 = Item.new("GummyBear", "chewing gum")
 	Item = PStore.new("items.pstore")
-	
+
 	Item.transaction do
 		Item[it1.type] = it1.name
 		Item[it2.type] = it2.name
