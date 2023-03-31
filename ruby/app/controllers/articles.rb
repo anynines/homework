@@ -1,4 +1,27 @@
 class ArticleController
+
+  # index
+  def get_batch
+    {
+      ok: true,
+      data: Article.all
+    }
+  end
+
+  # show
+  def get_article(id)
+    article = Article.where(id: id).first
+
+    if article
+      { ok: true, data: article }
+    else
+      { ok: false, msg: 'Article not found' }
+    end
+  rescue StandardError
+    { ok: false }
+  end
+
+  # create
   def create_article(article)
     article_exists = Article.where(title: article['title']).count > 0
 
@@ -13,6 +36,7 @@ class ArticleController
     { ok: false }
   end
 
+  # update
   def update_article(id, new_data)
     article = Article.where(id: id).first
 
@@ -25,18 +49,7 @@ class ArticleController
     { ok: false }
   end
 
-  def get_article(id)
-    article = Article.where(id: id).first
-
-    if article
-      { ok: true, data: article }
-    else
-      { ok: false, msg: 'Article not found' }
-    end
-  rescue StandardError
-    { ok: false }
-  end
-
+  # destroy
   def delete_article(id)
     article = Article.where(id: id).first
 
@@ -46,12 +59,5 @@ class ArticleController
     else
       { ok: false }
     end
-  end
-
-  def get_batch
-    {
-      ok: true,
-      data: Article.all
-    }
   end
 end
