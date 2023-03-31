@@ -1,37 +1,35 @@
 class ArticleController
   def create_article(article)
-    article_not_exists = ! (Article.where(:title => article['title']).empty?)
+    article_exists = Article.where(title: article['title']).count > 0
 
-    return { ok: false, msg: 'Article with given title already exists' } unless article_not_exists
+    return { ok: false, msg: 'Article with given title already exists' } if article_exists
 
-    new_article = Article.new(:title => article['title'], :content => article['content'], :created_at => Time.now)
-    new_article.save
+    article = Article.create! title: article['title'],
+        content: article['content'],
+        created_at: Time.now
 
-    { ok: false, obj: article }
+    { ok: true, obj: article }
   rescue StandardError
     { ok: false }
   end
 
   def update_article(id, new_data)
-
     article = Article.where(id: id).first
 
-    return { ok: false, msg: 'Article could not be found' } unless article.nil?
+    return { ok: false, msg: 'Article could not be found' } unless article
 
-    article.title = new_data['title']
-    article.content = new_data['content']
-    article.save_changes
+    article.update! new_data
 
-    { ok: true }
+    { ok: true, obj: article }
   rescue StandardError
     { ok: false }
   end
 
   def get_article(id)
-    res = Article.where(:id => id)
+    article = Article.where(id: id).first
 
-    if res.empty?
-      { ok: true, data: res }
+    if article
+      { ok: true, data: article }
     else
       { ok: false, msg: 'Article not found' }
     end
@@ -39,17 +37,21 @@ class ArticleController
     { ok: false }
   end
 
-  def delete_article(_id)
-    delete_count = Article.delete(:id => id)
+  def delete_article(id)
+    article = Article.where(id: id).first
 
-    if delete_count == 0
-      { ok: true }
+    if article
+      article.destroy
+      { ok: true, delete_count: 1}
     else
-      { ok: true, delete_count: delete_count }
+      { ok: false }
     end
   end
 
   def get_batch
-    
+    {
+      ok: true,
+      data: Article.all
+    }
   end
 end
