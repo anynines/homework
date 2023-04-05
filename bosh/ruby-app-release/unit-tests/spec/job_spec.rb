@@ -40,8 +40,8 @@ describe 'ruby app main job:' do
     it 'raises error if exec command is malformed' do
       tmps = template.render("bootstrap" => "app.rb")
 
-      exec_line = tmps.each_line do |line|
-        break if line.include? "bundle exec"
+      exec_line = tmps.each_line.detect do |line|
+        line.include? "bundle exec"
       end
       
       expect(exec_line).to include("bundle exec ruby app.rb")
