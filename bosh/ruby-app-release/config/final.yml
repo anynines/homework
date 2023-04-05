@@ -1,3 +1,4 @@
+name: any9s
 blobstore:
   provider: local
   options:

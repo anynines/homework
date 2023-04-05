@@ -1,3 +1,4 @@
+#!/bin/bash
 set -e -x
 
 RUN_DIR=/var/vcap/sys/run/rubyweb
@@ -16,21 +17,30 @@ case $1 in
 
     source /var/vcap/packages/ruby-2.7/bosh/runtime.env
     
-    <%= 
-    
+    <%
       start_file = p('bootstrap')
-      if not start_file.empty?
+      if start_file.empty?
         raise 'No bootstrap file provided'
       end
-
+      unless start_file == 'app.rb'
+        raise 'Wrong bootstrap file provided'
+      end
+      port = p('port')
+      raise 'Invalid port number' unless port == 8080
     %>
-    bundle exec ruby <%= start_file unless start_file.eql? "app.rb" %> \
+
+    bundle exec ruby <%= start_file if start_file.eql? "app.rb" %> \
       >>  $LOG_DIR/rubyweb.stdout.log \
       2>> $LOG_DIR/rubyweb.stderr.log
     ;;
 
+  stop)
+    kill -9 `cat $PIDFILE`
+    ;;
+
   *)
     echo "Usage: ctl {start|stop}"
+    ;;
 
 esac
 
