@@ -6,3 +6,4 @@ class HomeRoutes < Sinatra::Base
     erb :home
   end
 end
+
