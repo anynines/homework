@@ -1,0 +1,29 @@
+set -e -x
+
+RUN_DIR=/var/vcap/sys/run/rubyweb
+LOG_DIR=/var/vcap/sys/log/rubyweb
+PIDFILE=${RUN_DIR}/pid
+
+case $1 in
+
+  start)
+    mkdir -p $RUN_DIR $LOG_DIR
+    chown -R vcap:vcap $RUN_DIR $LOG_DIR
+
+    echo $$ > $PIDFILE
+
+    cd /var/vcap/packages/rubyweb
+
+    source /var/vcap/packages/ruby-2.7/bosh/runtime.env
+    
+    
+    bundle exec ruby app.rb \
+      >>  $LOG_DIR/rubyweb.stdout.log \
+      2>> $LOG_DIR/rubyweb.stderr.log
+    ;;
+
+  *)
+    echo "Usage: ctl {start|stop}"
+
+esac
+

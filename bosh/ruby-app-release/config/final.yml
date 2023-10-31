@@ -1,3 +1,4 @@
+name: ruby-app-release
 blobstore:
   provider: local
   options:

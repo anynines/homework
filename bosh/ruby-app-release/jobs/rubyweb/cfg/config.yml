@@ -1,10 +1,11 @@
-<%
-# Fetch the port value
+---
+port: <%=
+
 port = p("port")
 
-# Validate the port number
 if (port <= 1024 or port > 4000) and port != 8080
   raise "Invalid port number"
 end
+
+port
 %>
-port: <%= port %>
