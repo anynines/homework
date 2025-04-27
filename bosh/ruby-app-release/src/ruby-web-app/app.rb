@@ -6,7 +6,7 @@ configure do
 	# config = YAML.load_file('/var/vcap/jobs/rubyweb/cfg/config.yml')
 
 	set :bind, '0.0.0.0'
-    set :port, 8181
+	set :port, 8080
 
 	class Item
 		attr_reader :name, :type

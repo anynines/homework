@@ -8,3 +8,5 @@ gem 'dotenv', '~> 2.8'
 gem 'pg', '~> 1.4'
 gem 'webrick', '~> 1.7'
 gem "activerecord", "~> 7.0"
+gem "minitest", "~> 5.0"
+gem "minitest-reporters"
